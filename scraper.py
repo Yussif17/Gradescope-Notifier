@@ -1,7 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from creds import email, password
+from loggedInScraper import goToClass
 
+numAssignments = 0
+assignmentStatus = list()
 
 def login(e, p):
     url = 'https://www.gradescope.com/'
@@ -17,5 +20,8 @@ def login(e, p):
     password_box.send_keys(p)
     form = browser.find_element(By.CSS_SELECTOR, "form")
     form.submit()
+    goToClass(browser)
+
 
 login(email, password)
+

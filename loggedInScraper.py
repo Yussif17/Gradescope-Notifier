@@ -1,13 +1,17 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-driver = webdriver.Chrome()
 
-driver.get('https://www.gradescope.com/courses')
+def goToClass(driver):
+  courseBox = driver.find_element(By.XPATH, "//*[text()='Math 203']")
+  courseBox.click()
 
-
-driver.find_element(By.CSS_SELECTOR, ".courseBox").click()
-
-rows = driver.find_elements(By.XPATH, '//table//tr')
-print(rows)
-driver.quit()
+  rows = driver.find_elements(By.XPATH, '//table/tbody/tr[@role="row"]')
+  numberOfAssignments = 0
+  for i in range(len(rows)):
+    numberOfAssignments += 1
+  numAssignments = numberOfAssignments
+  assignmentStatus = driver.find_elements(By.CSS_SELECTOR, ".submissionStatus--score")
+  for el in assignmentStatus:
+    print(el.text)
+  input(' ')
