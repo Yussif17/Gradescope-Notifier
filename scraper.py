@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from creds import email, password
 from loggedInScraper import goToClass
 
+
 numAssignments = 0
 assignmentStatus = list()
 
