@@ -5,7 +5,7 @@ from loggedInScraper import goToClass
 
 
 numAssignments = 0
-assignmentStatus = list()
+assignmentStatus = 0
 
 def login(e, p):
     url = 'https://www.gradescope.com/'
@@ -21,7 +21,7 @@ def login(e, p):
     password_box.send_keys(p)
     form = browser.find_element(By.CSS_SELECTOR, "form")
     form.submit()
-    goToClass(browser)
+    goToClass(browser,numAssignments,assignmentStatus)
 
 
 login(email, password)
