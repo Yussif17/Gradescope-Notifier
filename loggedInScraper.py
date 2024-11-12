@@ -5,23 +5,36 @@ import firebase_admin
 from firebase_admin import db
 from creds import path, databaseURL
 
-def goToClass(driver):
+def goToClass(driver, className):
 
-  cred_obj = firebase_admin.credentials.Certificate(path)
-  default_app = firebase_admin.initialize_app(cred_obj, {
-    'databaseURL': databaseURL
-  })
+  # cred_obj = firebase_admin.credentials.Certificate(path)
+  # default_app = firebase_admin.initialize_app(cred_obj, {
+  #   'databaseURL': databaseURL
+  # })
+  # ref = db.reference("/")
+
+  if not firebase_admin._apps:
+      cred_obj = firebase_admin.credentials.Certificate(path)
+      default_app = firebase_admin.initialize_app(cred_obj, {
+          'databaseURL': databaseURL
+      })
   ref = db.reference("/")
-  numAssignments = ref.get()['numAssignments']
-  assignmentStatus = ref.get()['assignmentStatus']
+  # numAssignments = ref.get()['numAssignments{className}']
+  # assignmentStatus = ref.get()['assignmentStatus{className}']
+  refinedClassName = ""
+  if (className == "CSE 247/502N"):
+    refinedClassName = "CSE 247"
+  numAssignments = ref.get()[f'numAssignments{refinedClassName}']
+  assignmentStatus = ref.get()[f'assignmentStatus{refinedClassName}']
   
-  courseBox = driver.find_element(By.XPATH, "//*[text()='Math 203']")
+  courseBox = driver.find_element(By.XPATH, f"//*[text()='{className}']")
   courseBox.click()
 
   rows = driver.find_elements(By.XPATH, '//table/tbody/tr[@role="row"]')
   numberOfAssignments = 0
   for i in range(len(rows)):
     numberOfAssignments += 1
+  
 
   assignments = driver.find_elements(By.CSS_SELECTOR, ".submissionStatus--score")
   testList = list()
@@ -29,10 +42,11 @@ def goToClass(driver):
     testList.append(el.text)
   if (testList != assignmentStatus):
     alert_user()
-    ref.update({'assignmentStatus' : testList})
+    ref.update({f'assignmentStatus{refinedClassName}' : testList})
+    print(testList)
   if (numAssignments != numberOfAssignments):
-    #alert_user()
-    ref.update({'numAssignments' : numberOfAssignments})
-  driver.quit()
+    alert_user()
+    ref.update({f'numAssignments{refinedClassName}' : numberOfAssignments})
+  driver.back()
 
 
