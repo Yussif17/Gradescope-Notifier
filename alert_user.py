@@ -5,4 +5,3 @@ def alert_user():
     yag = yagmail.SMTP(google_email, google_password)
     yag.send(reciever_email, 'GET HYPE', 'NEW ASSIGNMENT OR GRADE DROPPED')
     yag.send(reciever2_email, 'GET HYPE', 'NEW ASSIGNMENT OR GRADE DROPPED')
-    print("Email sent successfully!")

@@ -1,8 +1,20 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from alert_user import alert_user
+import firebase_admin
+from firebase_admin import db
+from creds import path, databaseURL
 
-def goToClass(driver, numAssignments, assignmentStatus):
+def goToClass(driver):
+
+  cred_obj = firebase_admin.credentials.Certificate(path)
+  default_app = firebase_admin.initialize_app(cred_obj, {
+    'databaseURL': databaseURL
+  })
+  ref = db.reference("/")
+  numAssignments = ref.get()['numAssignments']
+  assignmentStatus = ref.get()['assignmentStatus']
+
   courseBox = driver.find_element(By.XPATH, "//*[text()='Math 203']")
   courseBox.click()
 
@@ -11,16 +23,16 @@ def goToClass(driver, numAssignments, assignmentStatus):
   for i in range(len(rows)):
     numberOfAssignments += 1
 
-  assignmentStatus = driver.find_elements(By.CSS_SELECTOR, ".submissionStatus--score")
+  assignments = driver.find_elements(By.CSS_SELECTOR, ".submissionStatus--score")
   testList = list()
-  for el in assignmentStatus:
+  for el in assignments:
     testList.append(el.text)
-  if (testList!=assignmentStatus):
+  if (testList != assignmentStatus):
     alert_user()
-    assignmentStatus = testList
-  if (numAssignments!=numberOfAssignments):
-      alert_user()
-      numAssignments = numberOfAssignments
+    ref.update({'assignmentStatus' : testList})
+  if (numAssignments != numberOfAssignments):
+    alert_user()
+    ref.update({'numAssignments' : numberOfAssignments})
   driver.quit()
 
 
