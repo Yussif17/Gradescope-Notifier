@@ -22,3 +22,5 @@ def goToClass(driver, numAssignments, assignmentStatus):
       alert_user()
       numAssignments = numberOfAssignments
   driver.quit()
+
+

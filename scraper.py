@@ -1,9 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from creds import email, password
+from creds import email, password, path, databaseURL
 from loggedInScraper import goToClass
+import firebase_admin
+from firebase_admin import db
 
-
+cred_obj = firebase_admin.credentials.Certificate(path)
+default_app = firebase_admin.initialize_app(cred_obj, {
+    'databaseURL': databaseURL
+    })
+ref = db.reference("/")
 numAssignments = 0
 assignmentStatus = 0
 
