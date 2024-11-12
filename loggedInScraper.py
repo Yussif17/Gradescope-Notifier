@@ -1,6 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-#from alert_user import alert_user
+from alert_user import alert_user
 
 def goToClass(driver, numAssignments, assignmentStatus):
   courseBox = driver.find_element(By.XPATH, "//*[text()='Math 203']")
