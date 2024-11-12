@@ -14,7 +14,7 @@ def goToClass(driver):
   ref = db.reference("/")
   numAssignments = ref.get()['numAssignments']
   assignmentStatus = ref.get()['assignmentStatus']
-
+  
   courseBox = driver.find_element(By.XPATH, "//*[text()='Math 203']")
   courseBox.click()
 
@@ -31,7 +31,7 @@ def goToClass(driver):
     alert_user()
     ref.update({'assignmentStatus' : testList})
   if (numAssignments != numberOfAssignments):
-    alert_user()
+    #alert_user()
     ref.update({'numAssignments' : numberOfAssignments})
   driver.quit()
 

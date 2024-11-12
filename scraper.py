@@ -10,7 +10,6 @@ def login(e, p):
     url = 'https://www.gradescope.com/'
     chrome_options = Options()
     chrome_options.add_argument("--headless") 
-    chrome_options.add_argument("--disable-gpu") 
     browser = webdriver.Chrome(options=chrome_options)
     browser.get(url)
     init_button = browser.find_element(By.CSS_SELECTOR, "[class='tiiBtn tiiBtn-secondarySplash js-logInButton']")    
