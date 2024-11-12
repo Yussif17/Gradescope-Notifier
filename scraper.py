@@ -2,10 +2,16 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from creds import email, password, path, databaseURL
 from loggedInScraper import goToClass
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
 
 def login(e, p):
     url = 'https://www.gradescope.com/'
-    browser = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--disable-gpu") 
+    browser = webdriver.Chrome(options=chrome_options)
     browser.get(url)
     init_button = browser.find_element(By.CSS_SELECTOR, "[class='tiiBtn tiiBtn-secondarySplash js-logInButton']")    
     init_button.click()
