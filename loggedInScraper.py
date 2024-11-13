@@ -21,7 +21,8 @@ def goToClass(driver, className):
   ref = db.reference("/")
   # numAssignments = ref.get()['numAssignments{className}']
   # assignmentStatus = ref.get()['assignmentStatus{className}']
-  refinedClassName = ""
+  data = ref.get()
+  refinedClassName = className
   if (className == "CSE 247/502N"):
     refinedClassName = "CSE 247"
   numAssignments = ref.get()[f'numAssignments{refinedClassName}']
@@ -43,7 +44,6 @@ def goToClass(driver, className):
   if (testList != assignmentStatus):
     alert_user()
     ref.update({f'assignmentStatus{refinedClassName}' : testList})
-    print(testList)
   if (numAssignments != numberOfAssignments):
     alert_user()
     ref.update({f'numAssignments{refinedClassName}' : numberOfAssignments})

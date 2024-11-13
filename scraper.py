@@ -22,7 +22,7 @@ def login(e, p):
     password_box.send_keys(p)
     form = browser.find_element(By.CSS_SELECTOR, "form")
     form.submit()
-    goToClass(browser, "Math 203")
+   # goToClass(browser, "Math 203")
     goToClass(browser, "CSE 247/502N")
     browser.quit()
 
