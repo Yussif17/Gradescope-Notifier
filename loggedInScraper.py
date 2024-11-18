@@ -4,6 +4,7 @@ from alert_user import alert_user
 import firebase_admin
 from firebase_admin import db
 from creds import path, databaseURL
+import time
 
 def goToClass(driver, className):
 
@@ -27,7 +28,8 @@ def goToClass(driver, className):
     refinedClassName = "CSE 247"
   numAssignments = ref.get()[f'numAssignments{refinedClassName}']
   assignmentStatus = ref.get()[f'assignmentStatus{refinedClassName}']
-  
+  time.sleep(5)
+
   courseBox = driver.find_element(By.XPATH, f"//*[text()='{className}']")
   courseBox.click()
 
