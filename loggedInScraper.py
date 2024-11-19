@@ -22,13 +22,26 @@ def goToClass(driver, className):
   ref = db.reference("/")
   # numAssignments = ref.get()['numAssignments{className}']
   # assignmentStatus = ref.get()['assignmentStatus{className}']
-  data = ref.get()
   refinedClassName = className
   if (className == "CSE 247/502N"):
     refinedClassName = "CSE 247"
-  numAssignments = ref.get()[f'numAssignments{refinedClassName}']
-  assignmentStatus = ref.get()[f'assignmentStatus{refinedClassName}']
-  time.sleep(5)
+  
+  retries = 3
+  for attempt in range(retries):
+    try:
+        data = ref.get()
+        if data:
+            numAssignments = data.get(f'numAssignments{refinedClassName}')
+            assignmentStatus = data.get(f'assignmentStatus{refinedClassName}')
+        if numAssignments is not None and assignmentStatus is not None:
+            break
+        else:
+            print("Retrying data retrieval...")
+            time.sleep(2) 
+            attempt += 1
+    except Exception as e:
+        print(f"Error during data retrieval: {e}")
+        time.sleep(2)
 
   courseBox = driver.find_element(By.XPATH, f"//*[text()='{className}']")
   courseBox.click()
