@@ -5,6 +5,8 @@ import firebase_admin
 from firebase_admin import db
 from creds import path, databaseURL
 import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 def goToClass(driver, className):
 
@@ -43,16 +45,21 @@ def goToClass(driver, className):
         print(f"Error during data retrieval: {e}")
         time.sleep(2)
 
-  courseBox = driver.find_element(By.XPATH, f"//*[text()='{className}']")
+  courseBox = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.XPATH, f"//*[text()='{className}']"))
+  )
   courseBox.click()
 
-  rows = driver.find_elements(By.XPATH, '//table/tbody/tr[@role="row"]')
+  rows = WebDriverWait(driver, 10).until(
+    EC.presence_of_all_elements_located((By.XPATH, '//table/tbody/tr[@role="row"]'))
+  )
   numberOfAssignments = 0
   for i in range(len(rows)):
     numberOfAssignments += 1
   
-
-  assignments = driver.find_elements(By.CSS_SELECTOR, ".submissionStatus--score")
+  assignments = WebDriverWait(driver, 10).until(
+    EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".submissionStatus--score"))
+  )
   testList = list()
   for el in assignments:
     testList.append(el.text)
