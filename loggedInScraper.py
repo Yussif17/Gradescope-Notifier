@@ -64,10 +64,10 @@ def goToClass(driver, className):
   for el in assignments:
     testList.append(el.text)
   if (testList != assignmentStatus):
-    alert_user()
+    alert_user("New Grade Dropped")
     ref.update({f'assignmentStatus{refinedClassName}' : testList})
   if (numAssignments != numberOfAssignments):
-    alert_user()
+    alert_user("New Assignment Dropped")
     ref.update({f'numAssignments{refinedClassName}' : numberOfAssignments})
   driver.back()
 
